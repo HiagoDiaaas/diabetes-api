@@ -49,10 +49,21 @@ public class EventController {
 		return service.getEventById(id);
 	}
 	
-	@PutMapping("/update")
-	public Event updateEvent(@RequestBody Event event) {
-		return service.updateEvent(event);
-	}
+//	@PutMapping("/update")
+//	public Event updateEvent(@RequestBody Event event) {
+//		return service.updateEvent(event);
+//	}
+	
+	@PutMapping("/update/{id}")
+    public ResponseEntity<Event> save(@PathVariable int id, @RequestBody Event event){
+        Optional<Event> object = repository.findById(id);
+        if(object.isPresent()) {
+        	 event.setId(id);
+            this.repository.save(event);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
 	
 //	@DeleteMapping("/delete/{id}")
 //	public String deleteEvent(@PathVariable int id) {
