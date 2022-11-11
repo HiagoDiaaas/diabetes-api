@@ -1,8 +1,11 @@
 package com.hiago.diabetesapi.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +14,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.hiago.diabetesapi.entity.Event;
+import com.hiago.diabetesapi.repository.EventRepository;
 import com.hiago.diabetesapi.service.EventService;
 
 
@@ -20,6 +25,9 @@ public class EventController {
 	
 	@Autowired
 	private EventService service;
+	
+	@Autowired
+	private EventRepository repository;
 	
 	@PostMapping("/addEvent")
 	public Event addProduct(@RequestBody Event event) {
@@ -46,10 +54,21 @@ public class EventController {
 		return service.updateEvent(event);
 	}
 	
+//	@DeleteMapping("/delete/{id}")
+//	public String deleteEvent(@PathVariable int id) {
+//		return service.deleteEvent(id);
+//	}
+//	
+	
 	@DeleteMapping("/delete/{id}")
-	public String deleteEvent(@PathVariable int id) {
-		return service.deleteEvent(id);
-	}
+    public ResponseEntity<Event> delete(@PathVariable int id){
+        Optional<Event> object = repository.findById(id);
+        if(object.isPresent()) {
+            repository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
 	
 	
 	
