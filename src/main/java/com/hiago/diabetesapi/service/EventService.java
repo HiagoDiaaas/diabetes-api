@@ -3,6 +3,7 @@ package com.hiago.diabetesapi.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.hiago.diabetesapi.entity.Event;
@@ -26,6 +27,13 @@ public class EventService {
 	public List<Event> getEvents() {
 		return repository.findAll();
 	}
+	
+	
+	public void deleteAllEvents() {
+		repository.deleteAll();
+		
+	}
+	
 	
 	public Event getEventById(int id) {
 		return repository.findById(id).orElse(null);

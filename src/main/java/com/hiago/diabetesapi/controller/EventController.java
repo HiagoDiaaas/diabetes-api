@@ -49,10 +49,7 @@ public class EventController {
 		return service.getEventById(id);
 	}
 	
-//	@PutMapping("/update")
-//	public Event updateEvent(@RequestBody Event event) {
-//		return service.updateEvent(event);
-//	}
+
 	
 	@PutMapping("/update/{id}")
     public ResponseEntity<Event> save(@PathVariable int id, @RequestBody Event event){
@@ -65,11 +62,7 @@ public class EventController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 	
-//	@DeleteMapping("/delete/{id}")
-//	public String deleteEvent(@PathVariable int id) {
-//		return service.deleteEvent(id);
-//	}
-//	
+
 	
 	@DeleteMapping("/delete/{id}")
     public ResponseEntity<Event> delete(@PathVariable int id){
@@ -79,6 +72,21 @@ public class EventController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+	
+	
+//	@DeleteMapping("/deleteAll")
+//    public void deleteAll(){
+//        service.deleteAllEvents();
+//    }
+	
+	
+
+	@DeleteMapping("/deleteAll")
+    public ResponseEntity<Event> deleteAll(){
+            repository.deleteAll();
+            return ResponseEntity.noContent().build();
+        
     }
 	
 	
